@@ -26,6 +26,59 @@ module Enumerable
     end
     state
   end
+
+  def my_any?
+    state = nil
+    self.each do |elem|
+      if yield(elem) == true
+        state = true
+      elsif yield(elem) == false
+        state = false
+      end
+    end
+    state
+  end
+
+  def my_none?
+    self.each do |elem|
+      if !yield(elem)
+        return true
+      elsif yield(elem)
+        return false
+      end
+    end
+  end
+
+  def my_count
+    enum_size = []
+    self.each do |elem|
+      if block_given?
+        enum_size << elem if yield(elem) == true
+      else
+        return self.size
+      end
+    end
+    enum_size.size
+  end
+
+  def my_map
+    map_array = []
+    self.each do |elem|
+      map_array << yield(elem) if block_given?
+    end
+    map_array
+  end
+
+  def my_inject(acc)
+    result = acc
+    self.each do |elem|
+      result = yield(result, elem)
+    end
+    result
+  end
+
+
+
 end
 
 
