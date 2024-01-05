@@ -1,11 +1,38 @@
 module Enumerable
-  # Your code goes here
+  def my_each_with_index
+    for index in (0...self.length)
+      element = self[index]
+      yield(element, index)
+    end
+    self
+  end
+
+  def my_select
+    arr = []
+    self.each do |elem|
+      arr << elem if yield(elem) == true
+    end
+    arr
+  end
+
+  def my_all?
+    state = nil
+    self.each do |elem|
+      if yield(elem) == true
+        state = true
+      elsif yield(elem) == false
+        state = false
+      end
+    end
+    state
+  end
 end
 
-# You will first have to define my_each
-# on the Array class. Methods defined in
-# your enumerable module will have access
-# to this method
+
 class Array
-  # Define my_each here
+  def my_each
+    for element in self
+      yield(element)
+    end
+  end
 end
